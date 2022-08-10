@@ -1,4 +1,4 @@
-# Homebrew PHP version switcher
+# Homebrew PHP version switcher ![CI!](https://github.com/gtsvetanov/brew-php-switcher/actions/workflows/ci.yml/badge.svg?branch=master "CI")
 [Homebrew](https://brew.sh/) [PHP](https://php.net/) version switcher is a simple script to switch between [homebrew](https://brew.sh) installed [php](https://php.net/) versions for users using macOS.
 
 ## Caveats

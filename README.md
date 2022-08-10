@@ -6,7 +6,7 @@
 This script is working only on macOS and it was tested only on Monterey. It may work on Big Sur and even older versions like Catalina and Mojave but you have to use it caution.
 
 ### Apache
-For best experiance use [Homebrew Apache 2.x](https://formulae.brew.sh/formula/httpd) version instead of macOS built-in [Apache](https://httpd.apache.org/).
+For best experience use [Homebrew Apache 2.x](https://formulae.brew.sh/formula/httpd) version instead of macOS built-in [Apache](https://httpd.apache.org/).
 
 ### PHP versions
 This script will automatically detect which php versions are installed on your machine via [homebrew](https://brew.sh)
@@ -43,6 +43,12 @@ brew-php-switcher 8.1 -f
 ```sh
 # Setting CLI php version 8.1 and Laravel Valet to use the same version
 brew-php-switcher 8.1 -v 
+```
+
+`-h|--help` - This option will print help message
+```sh
+# Prints help message
+brew-php-switcher -h
 ```
 
 ### Examples

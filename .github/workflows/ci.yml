@@ -22,7 +22,7 @@ jobs:
           - '8.1'
     steps:
       - name: 'PHP versions check'
-        uses: 'actions/checkout@v3'
+      - uses: 'actions/checkout@v3'
         run: |
           brew --version
           brew tap shivammathur/php

@@ -6,7 +6,7 @@ on:
     branches: [ 'master' ]
 jobs:
   tests:
-    continue-on-error: true
+    continue-on-error: false
     strategy:
       fail-fast: true
       matrix:

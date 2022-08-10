@@ -10,20 +10,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [
-          'macos-12',
-          # 'macos-11'
-        ]
-        php-version: [
-          '5.6',
-          # '7.0',
-          # '7.1',
-          # '7.2',
-          # '7.3',
-          # '7.4',
-          # '8.0',
-          # '8.1'
-        ]
+        os: [ 'macos-12', 'macos-11' ]
+        php-version: [ '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1' ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: 'PHP version check'
@@ -32,13 +20,14 @@ jobs:
           brew --version
           brew tap shivammathur/php
           brew install shivammathur/php/php@${{ matrix.php-version }}
+          
           ./brew-php-switcher.sh ${{ matrix.php-version }}
           version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
           if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
             echo "Expected ${{ matrix.php-version }} got ${version}"
             exit 1
           else
-            echo "PHP CLI version is properly switched to ${{ matrix.php-version }}"
+            echo "PHP CLI version was properly switched to ${{ matrix.php-version }}"
           fi
           
           service="php@${version}"
@@ -47,15 +36,10 @@ jobs:
           fi
           
           brew services start "${service}"
-          
           status=$(brew services list | grep "${service}" | grep "started")
-          
-          echo "${service}"
-          echo $(brew services list | grep "${service}")
-          
           if [[ -z "${status}" ]]; then
             echo "PHP-FPM service with version ${version} is not started"
             exit 1
+          else
+            echo "PHP-FPM service with version ${version} was started properly"
           fi
-          
-          exit 0

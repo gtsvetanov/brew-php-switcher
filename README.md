@@ -1,4 +1,22 @@
-# Homebrew PHP version switcher ![CI!](https://github.com/gtsvetanov/brew-php-switcher/actions/workflows/ci.yml/badge.svg?branch=master "CI")
+<h1 align="center">Homebrew PHP version switcher</h1>
+<p align="center">
+    <a href="https://github.com/gtsvetanov/brew-php-switcher" title="Build status">
+        <img alt="Build status" src="https://github.com/gtsvetanov/brew-php-switcher/actions/workflows/ci.yml/badge.svg?branch=master">
+    </a>
+    <a href="https://github.com/gtsvetanov/brew-php-switcher" title="Apple Intel x86_64 supported">
+        <img alt="macOS architectures supported" src="https://img.shields.io/badge/macOS-Intel%20x86__64%20-007DC3?logo=apple&logoColor=555555&labelColor=ffffff">
+    </a>  
+    <a href="https://github.com/gtsvetanov/brew-php-switcher" title="Apple M1 arm64 supported">
+        <img alt="macOS architectures supported" src="https://img.shields.io/badge/macOS-Apple%20arm64%20-c0476d?logo=apple&logoColor=555555&labelColor=ffffff">
+    </a>
+    <a href="https://github.com/shivammathur/homebrew-php/blob/master/LICENSE" title="license">
+        <img alt="LICENSE" src="https://img.shields.io/badge/license-MIT-428f7e.svg?logo=open%20source%20initiative&logoColor=white&labelColor=555555">
+    </a>
+    <a href="https://github.com/shivammathur/homebrew-php/tree/master/Formula" title="Formulae for PHP versions">
+        <img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.6%20to%208.1-777bb3.svg?logo=php&logoColor=white&labelColor=555555">
+    </a>
+</p>
+
 [Homebrew](https://brew.sh/) [PHP](https://php.net/) version switcher is a simple script to switch between [homebrew](https://brew.sh) installed [php](https://php.net/) versions for users using macOS.
 
 ## Caveats

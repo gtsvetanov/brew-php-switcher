@@ -50,7 +50,8 @@ jobs:
           
           status=$(brew services list | grep "${service}" | grep "started")
           
-          echo $(brew services list)
+          echo "${service}"
+          echo $(brew services list | grep "${service}")
           
           if [[ -n "${status}" ]]; then
             echo "PHP-FPM service with version ${version} is not started"

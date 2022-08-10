@@ -1,4 +1,4 @@
-name: 'macOS tests'
+name: 'macOS'
 on:
   push:
     branches: [ 'master' ]
@@ -32,7 +32,7 @@ jobs:
           
           service="php@${version}"
           if [[ "${version}" == "8.1" ]]; then 
-            service="php[^@]"
+            service="php"
           fi
           
           brew services start "${service}"

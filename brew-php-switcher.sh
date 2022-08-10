@@ -1,8 +1,8 @@
 #!/bin/bash
 # Author: Georgi Tsvetanov
 # E-mail: spam@gtsvetanov.com
-# Github: gtsvetanov
-# Twitter: gtsvetanovcom
+# Github: https://github.com/gtsvetanov
+# Twitter: https://twitter.com/gtsvetanovcom
 
 show_help() {
   # List php versions for help message

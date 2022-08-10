@@ -26,7 +26,7 @@ jobs:
         ]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: 'PHP versions check'
+      - name: 'PHP version check'
         uses: 'actions/checkout@v3'
       - run: |
           brew --version
@@ -53,7 +53,7 @@ jobs:
           echo "${service}"
           echo $(brew services list | grep "${service}")
           
-          if [[ -n "${status}" ]]; then
+          if [[ -z "${status}" ]]; then
             echo "PHP-FPM service with version ${version} is not started"
             exit 1
           fi

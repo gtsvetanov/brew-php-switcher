@@ -81,3 +81,4 @@ brew-php-switcher 8.1 -a -f -v
 ## Helpful links
 - [philcook/brew-php-switcher](https://github.com/philcook/brew-php-switcher)
 - [Easy Brew PHP-FPM switch](https://gist.github.com/rozsival/10289d1e2006c68009ace0478306ecd2)
+- [macOS Monterey Apache multiple php versions](https://getgrav.org/blog/macos-monterey-apache-multiple-php-versions)

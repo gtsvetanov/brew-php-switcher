@@ -1,0 +1,35 @@
+name: 'macOS tests'
+on:
+  push:
+    branches: [ 'master' ]
+  pull_request:
+    branches: [ 'master' ]
+jobs:
+  monterey:
+    runs-on: 'macos-12'
+    continue-on-error: true
+    strategy:
+      fail-fast: true
+      matrix:
+        php-version:
+          - '5.6'
+          - '7.0'
+          - '7.1'
+          - '7.2'
+          - '7.3'
+          - '7.4'
+          - '8.0'
+          - '8.1'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the site in the jekyll/builder container
+      - run: |
+          brew --version
+          brew tap shivammathur/php
+          brew install shivammathur/php/php@${{ matrix.php-version }}
+          ./brew-php-switcher.sh ${{ matrix.php-version }} -s
+          version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
+          if [ "${{ matrix.php-version }}" != "${version}" ]; then
+            echo "Expected ${{ matrix.php-version }} got ${version}"
+            exit 1
+          fi

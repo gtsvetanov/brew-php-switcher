@@ -21,9 +21,9 @@ jobs:
           - '8.0'
           - '8.1'
     steps:
-      - uses: actions/checkout@v3
-      - name: Build the site in the jekyll/builder container
-      - run: |
+      - name: 'PHP versions check'
+        uses: 'actions/checkout@v3'
+        run: |
           brew --version
           brew tap shivammathur/php
           brew install shivammathur/php/php@${{ matrix.php-version }}

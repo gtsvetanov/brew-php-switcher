@@ -22,7 +22,24 @@ jobs:
           brew install shivammathur/php/php@${{ matrix.php-version }}
           ./brew-php-switcher.sh ${{ matrix.php-version }}
           version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
-          if [ "${{ matrix.php-version }}" != "${version}" ]; then
+          if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
             echo "Expected ${{ matrix.php-version }} got ${version}"
             exit 1
+          else
+            echo "PHP CLI version is properly switched to ${{ matrix.php-version }}"
           fi
+          
+          service="php@${version}"
+          if [[ "${version}" == "8.1" ]]; then 
+            service="php[^@]"
+          fi
+          
+          brew services start "${service}"
+          
+          status=$(brew services list | grep "${service}" | grep "started")
+          if [[ -n "${status}" ]]; then
+            echo "PHP-FPM service with version ${version} is not started"
+            exit 1
+          fi
+          
+          exit 0

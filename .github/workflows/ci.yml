@@ -31,6 +31,8 @@ jobs:
             echo -e "\\033[31m$*\\033[0m"
           }
           
+          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          
           notify_message "Checking PHP"
           php -v
           initial_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)

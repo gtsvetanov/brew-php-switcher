@@ -48,17 +48,29 @@ jobs:
             
             ./brew-php-switcher.sh ${php_version}
             
+            current_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
+            
+            if [[ "${php_version}" == "${current_php_version}"]]; then
+              success_message "Version was successfully changed and it's working"
+            else
+              error_message "Version was not successfully changed and it's not working"
+              exit 1
+            fi
+            
             service="php@${php_version}"
             if [[ "${php_version}" == "8.3" ]]; then 
               service="php"
             fi
             
-            brew services start "${service}"
-            status=$(brew services list | grep "${service}" | grep "started")
-            if [[ -z "${status}" ]]; then
-              echo "PHP-FPM service with version ${version} is not started"
-              exit 1
-            else
-              echo "PHP-FPM service with version ${version} was started properly"
-            fi
+            
           done
+          
+          exit 0;
+          brew services start "${service}"
+                      status=$(brew services list | grep "${service}" | grep "started")
+                      if [[ -z "${status}" ]]; then
+                        echo "PHP-FPM service with version ${version} is not started"
+                        exit 1
+                      else
+                        echo "PHP-FPM service with version ${version} was started properly"
+                      fi

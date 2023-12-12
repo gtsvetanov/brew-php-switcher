@@ -20,7 +20,7 @@ jobs:
           brew --version
           brew tap shivammathur/php
           
-          if [[ "${matrix.php-version}" == "8.3" ]]; then 
+          if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 
             brew install shivammathur/php/php@8.2
           else
             brew install shivammathur/php/php

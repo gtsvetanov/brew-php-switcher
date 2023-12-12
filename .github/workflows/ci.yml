@@ -65,16 +65,14 @@ jobs:
             if [[ "${php_version}" == "8.3" ]]; then 
               service="php"
             fi
+            brew services start "${service}"
+            status=$(brew services list | grep "${service}" | grep "started")
+            if [[ -z "${status}" ]]; then
+              echo "PHP-FPM service with version ${version} is not started"
+              exit 1
+            else
+              echo "PHP-FPM service with version ${version} was started properly"
+            fi
           done
           
           brew services list
-          
-          exit 0;
-          brew services start "${service}"
-                      status=$(brew services list | grep "${service}" | grep "started")
-                      if [[ -z "${status}" ]]; then
-                        echo "PHP-FPM service with version ${version} is not started"
-                        exit 1
-                      else
-                        echo "PHP-FPM service with version ${version} was started properly"
-                      fi

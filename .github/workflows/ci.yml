@@ -50,7 +50,7 @@ jobs:
             
             current_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
             
-            if [[ "${php_version}" == "${current_php_version}"]]; then
+            if [[ "${php_version}" == "${current_php_version}" ]]; then
               success_message "Version was successfully changed and it's working"
             else
               error_message "Version was not successfully changed and it's not working"

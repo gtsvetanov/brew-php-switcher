@@ -17,42 +17,28 @@ jobs:
       - name: 'PHP version check'
         uses: 'actions/checkout@v3'
       - run: |
-          # echo "Setting HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK"
-          # export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
-          
-          # echo "Setting HOMEBREW_NO_INSTALL_UPGRADE"
-          # export HOMEBREW_NO_INSTALL_UPGRADE=1
-          
-          echo "Checking current brew version"
-          brew --version
-          
+          echo "Checking PHP"
           php -v
+          current_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
+          
+          echo "Checking Brew"
+          brew --version
           
           echo "Adding shivammathur/php tap"
           brew tap shivammathur/php
           
-          # echo "Installing different version"
-          # if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 
-          #   brew install php@8.2
-          #   brew services start php@8.2
-          # else
-          #   brew install php@8.3
-          #   brew services start php@8.3
-          # fi
+          if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
+            echo "Current PHP version is the same as matrix php version."
+          else
+            echo "Current PHP version and matrix php version are different"
+          fi
           
-          php -v
+          exit 0
           
-          echo "Installing matrix version"
-          brew install php@${{ matrix.php-version }}
+          brew install shivammathur/php/php@${{ matrix.php-version }}
           
-          echo "Setting php to matrix version"
           ./brew-php-switcher.sh ${{ matrix.php-version }}
-          
-          php -v
-          
           version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
-          
-          echo "Checking matrix version"
           if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
             echo "Expected ${{ matrix.php-version }} got ${version}"
             exit 1
@@ -61,9 +47,12 @@ jobs:
           fi
           
           service="php@${version}"
-          status=$(brew services list | grep "${service}" | grep "started")
+          if [[ "${version}" == "8.3" ]]; then 
+            service="php"
+          fi
           
-          echo "Checking service status"
+          brew services start "${service}"
+          status=$(brew services list | grep "${service}" | grep "started")
           if [[ -z "${status}" ]]; then
             echo "PHP-FPM service with version ${version} is not started"
             exit 1

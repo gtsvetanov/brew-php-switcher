@@ -56,6 +56,8 @@ jobs:
             notify_message "Initial PHP version and Matrix PHP version are different"
           fi
           
+          brew services list
+          
           notify_message "Installing shivammathur/php/php@${{ matrix.php-version }}"
           brew install shivammathur/php/php@${{ matrix.php-version }}
           

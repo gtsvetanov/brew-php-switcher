@@ -17,8 +17,9 @@ jobs:
       - name: 'PHP version check'
         uses: 'actions/checkout@v3'
       - run: |
-          brew --version
           export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          
+          brew --version
           brew tap shivammathur/php
           
           if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 

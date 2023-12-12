@@ -31,15 +31,15 @@ jobs:
           
           echo "Installing different version"
           if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 
-            brew install shivammathur/php/php@8.2
-            brew services start shivammathur/php/php@8.2
+            brew install php@8.2
+            brew services start php@8.2
           else
-            brew install shivammathur/php/php@8.3
-            brew services start shivammathur/php/php@8.3
+            brew install php@8.3
+            brew services start php@8.3
           fi
           
           echo "Installing matrix version"
-          brew install shivammathur/php/php@${{ matrix.php-version }}
+          brew install php@${{ matrix.php-version }}
           
           echo "Setting php to matrix version"
           ./brew-php-switcher.sh ${{ matrix.php-version }}

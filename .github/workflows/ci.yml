@@ -27,24 +27,28 @@ jobs:
           echo "Adding shivammathur/php tap"
           brew tap shivammathur/php
           
-          if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
+          if [[ "${{ matrix.php-version }}" == "${version}" ]]; then
             echo "Current PHP version is the same as matrix php version."
           else
             echo "Current PHP version and matrix php version are different"
+            
+            echo "Installing shivammathur/php/php@${{ matrix.php-version }}"
+            brew install shivammathur/php/php@${{ matrix.php-version }}
+            
+            ./brew-php-switcher.sh ${{ matrix.php-version }}
+            version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
+            if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
+              echo "Expected ${{ matrix.php-version }} got ${version}"
+              exit 1
+            else
+              echo "PHP CLI version was properly switched to ${{ matrix.php-version }}"
+            fi
           fi
           
           exit 0
           
-          brew install shivammathur/php/php@${{ matrix.php-version }}
           
-          ./brew-php-switcher.sh ${{ matrix.php-version }}
-          version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
-          if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
-            echo "Expected ${{ matrix.php-version }} got ${version}"
-            exit 1
-          else
-            echo "PHP CLI version was properly switched to ${{ matrix.php-version }}"
-          fi
+          
           
           service="php@${version}"
           if [[ "${version}" == "8.3" ]]; then 

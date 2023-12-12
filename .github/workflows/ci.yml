@@ -11,7 +11,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ 'macos-13' ]
-        php: [ '8.2', '8.3' ]
+        php-version: [ '8.2', '8.3' ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: 'PHP version check'
@@ -36,9 +36,9 @@ jobs:
           php -v
           current_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
           
-          notify_message "Current version is ${{ current_php_version }} (Matrix version is: ${{ matrix.php }})"
+          notify_message "Current version is ${{ current_php_version }} (Matrix version is: ${{ matrix.php-version }})"
           
-          if [[ "${{ matrix.php }}" == "${{ version }}" ]]; then
+          if [[ "${{ matrix.php-version }}" == "${{ version }}" ]]; then
             notify_message "Current PHP version is the same as matrix php version."
           else
             notify_message "Current PHP version and matrix php version are different"
@@ -52,21 +52,21 @@ jobs:
           notify_message "Adding shivammathur/php tap"
           brew tap shivammathur/php
           
-          if [[ "${{ matrix.php }}" == "${version}" ]]; then
+          if [[ "${{ matrix.php-version }}" == "${version}" ]]; then
             notify_message "Current PHP version is the same as matrix php version."
           else
             notify_message "Current PHP version and matrix php version are different"
             
-            notify_message "Installing shivammathur/php/php@${{ matrix.php }}"
-            brew install shivammathur/php/php@${{ matrix.php }}
+            notify_message "Installing shivammathur/php/php@${{ matrix.php-version }}"
+            brew install shivammathur/php/php@${{ matrix.php-version }}
             
-            ./brew-php-switcher.sh ${{ matrix.php }}
+            ./brew-php-switcher.sh ${{ matrix.php-version }}
             version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
-            if [[ "${{ matrix.php }}" != "${version}" ]]; then
-              error_message "Expected ${{ matrix.php }} got ${version}"
+            if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
+              error_message "Expected ${{ matrix.php-version }} got ${version}"
               exit 1
             else
-              success_message "PHP CLI version was properly switched to ${{ matrix.php }}"
+              success_message "PHP CLI version was properly switched to ${{ matrix.php-version }}"
             fi
           fi
           

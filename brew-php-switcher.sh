@@ -5,7 +5,7 @@
 # Twitter: https://twitter.com/gtsvetanovcom
 
 notify_message() {
-  echo -e "\\033[34m$*\\033[0m"
+  echo -e "\\033[33m$*\\033[0m"
 }
 
 success_message() {

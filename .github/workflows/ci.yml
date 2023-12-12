@@ -36,6 +36,8 @@ jobs:
           php -v
           current_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
           
+          notify_message "Current version is ${current_php_version}"
+          
           notify_message "Checking Brew"
           brew --version
           

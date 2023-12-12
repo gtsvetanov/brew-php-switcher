@@ -33,11 +33,21 @@ jobs:
           
           # export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
           
-          notify_message "Checking PHP"
-          php -v
-          initial_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
+          if [[ command -v ashdiuasdhu ]]; then
+            error_message "ashdiuasdhu exists"
+          fi
           
-          notify_message "Initial PHP version is ${initial_php_version}"
+          notify_message "Checking PHP"
+          if [[ command -v php ]]; then
+            php -v
+            initial_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
+            
+            notify_message "Initial PHP version is ${initial_php_version}"
+            
+            notify_message "Removing PHP and all of it's dependencies"
+            brew uninstall php
+            brew autoremove
+          fi
           
           notify_message "Checking Brew"
           brew --version

@@ -21,6 +21,8 @@ jobs:
           php -v
           current_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
           
+          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          
           echo "Checking Brew"
           brew --version
           

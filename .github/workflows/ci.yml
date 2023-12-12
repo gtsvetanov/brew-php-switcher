@@ -17,7 +17,7 @@ jobs:
         uses: 'actions/checkout@v3'
       - run: |
           php_versions=("5.6" "7.0" "7.1" "7.2" "7.3" "7.4" "8.0" "8.1" "8.2" "8.3")
-          php_versions=("8.1" "8.2" "8.3")
+          php_versions=("8.2" "8.3")
           
           notify_message() {
             echo -e "\\033[33m$*\\033[0m"
@@ -44,8 +44,6 @@ jobs:
           
           notify_message "Adding shivammathur/php tap"
           brew tap shivammathur/php
-          
-          # brew reinstall libsodium
           
           for php_version in ${php_versions[*]}; do
             notify_message "Installing shivammathur/php/php@${php_version}"

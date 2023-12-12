@@ -11,7 +11,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ 'macos-13' ]
-        php-version: [ '8.2', '8.3' ]
+        php-version: [ '8.3' ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: 'PHP version check'
@@ -23,8 +23,10 @@ jobs:
           
           if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 
             brew install shivammathur/php/php@8.2
+            brew service start shivammathur/php/php@8.2
           else
             brew install shivammathur/php/php@8.3
+            brew service start shivammathur/php/php@8.3
           fi
           
           brew install shivammathur/php/php@${{ matrix.php-version }}
@@ -39,11 +41,6 @@ jobs:
           fi
           
           service="php@${version}"
-          if [[ "${version}" == "8.3" ]]; then 
-            service="php"
-          fi
-          
-          brew services start "${service}"
           status=$(brew services list | grep "${service}" | grep "started")
           if [[ -z "${status}" ]]; then
             echo "PHP-FPM service with version ${version} is not started"

@@ -4,6 +4,10 @@
 # Github: https://github.com/gtsvetanov
 # Twitter: https://twitter.com/gtsvetanovcom
 
+notify_message() {
+  echo -e "\\033[34m$*\\033[0m"
+}
+
 success_message() {
   echo -e "\\033[32m$*\\033[0m"
 }
@@ -182,10 +186,10 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
   if [[ ${apache_change} -eq 1 ]]; then
     if brew list httpd &>/dev/null || [[ ${osx_version} -lt 12000 ]]; then
       if brew list httpd &>/dev/null; then
-        echo "Brew version of Apache"
+        notify_message "Brew version of Apache"
         apache_config_file="${brew_etc_path}/httpd/httpd.conf"
       else
-        echo "Built-in Apache"
+        notify_message "Built-in Apache"
         apache_config_file="/etc/apache2/httpd.conf"
       fi
 

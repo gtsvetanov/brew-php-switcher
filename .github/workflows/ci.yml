@@ -17,31 +17,43 @@ jobs:
       - name: 'PHP version check'
         uses: 'actions/checkout@v3'
       - run: |
-          echo "Checking PHP"
+          notify_message() {
+            echo -e "\\033[34m$*\\033[0m"
+          }
+          
+          success_message() {
+            echo -e "\\033[32m$*\\033[0m"
+          }
+            
+          error_message() {
+            echo -e "\\033[31m$*\\033[0m"
+          }
+          
+          notify_message "Checking PHP"
           php -v
           current_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
           
-          echo "Checking Brew"
+          notify_message "Checking Brew"
           brew --version
           
-          echo "Adding shivammathur/php tap"
+          notify_message "Adding shivammathur/php tap"
           brew tap shivammathur/php
           
           if [[ "${{ matrix.php-version }}" == "${version}" ]]; then
-            echo "Current PHP version is the same as matrix php version."
+            notify_message "Current PHP version is the same as matrix php version."
           else
-            echo "Current PHP version and matrix php version are different"
+            notify_message "Current PHP version and matrix php version are different"
             
-            echo "Installing shivammathur/php/php@${{ matrix.php-version }}"
+            notify_message "Installing shivammathur/php/php@${{ matrix.php-version }}"
             brew install shivammathur/php/php@${{ matrix.php-version }}
             
             ./brew-php-switcher.sh ${{ matrix.php-version }}
             version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
             if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
-              echo "Expected ${{ matrix.php-version }} got ${version}"
+              error_message "Expected ${{ matrix.php-version }} got ${version}"
               exit 1
             else
-              echo "PHP CLI version was properly switched to ${{ matrix.php-version }}"
+              success_message "PHP CLI version was properly switched to ${{ matrix.php-version }}"
             fi
           fi
           

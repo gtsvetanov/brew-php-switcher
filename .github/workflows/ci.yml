@@ -52,6 +52,7 @@ jobs:
             
             if [[ "${php_version}" == "${current_php_version}" ]]; then
               success_message "Version was successfully changed and it's working"
+              php -v
             else
               error_message "Version was not successfully changed and it's not working"
               exit 1
@@ -61,9 +62,9 @@ jobs:
             if [[ "${php_version}" == "8.3" ]]; then 
               service="php"
             fi
-            
-            
           done
+          
+          brew services list
           
           exit 0;
           brew services start "${service}"

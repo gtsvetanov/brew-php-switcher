@@ -10,8 +10,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ 'macos-14', 'macos-13' ]
-        php-version: [ '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        os: [ 'macos-14' ]
+        php-version: [ '8.2', '8.3' ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: 'PHP version check'
@@ -19,6 +19,13 @@ jobs:
       - run: |
           brew --version
           brew tap shivammathur/php
+          
+          if [[ "${matrix.php-version}" == "8.3" ]]; then 
+            brew install shivammathur/php/php@8.2
+          else
+            brew install shivammathur/php/php
+          fi
+          
           brew install shivammathur/php/php@${{ matrix.php-version }}
           
           ./brew-php-switcher.sh ${{ matrix.php-version }}

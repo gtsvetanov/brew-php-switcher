@@ -18,7 +18,10 @@ jobs:
         uses: 'actions/checkout@v3'
       - run: |
           echo "Setting HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK"
-          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=0
+          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          
+          echo "Setting HOMEBREW_NO_INSTALL_UPGRADE"
+          export HOMEBREW_NO_INSTALL_UPGRADE=1
           
           echo "Checking current brew version"
           brew --version
@@ -30,15 +33,13 @@ jobs:
           if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 
             brew install shivammathur/php/php@8.2
             brew services start shivammathur/php/php@8.2
-            brew link --overwrite --force php@8.2
           else
             brew install shivammathur/php/php@8.3
             brew services start shivammathur/php/php@8.3
-            brew link --overwrite --force php@8.3
           fi
           
           echo "Installing matrix version"
-          brew install shivammathur/php/php@8.3
+          brew install shivammathur/php/php@${{ matrix.php-version }}
           
           echo "Setting php to matrix version"
           ./brew-php-switcher.sh ${{ matrix.php-version }}

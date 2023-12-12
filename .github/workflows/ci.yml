@@ -36,9 +36,9 @@ jobs:
           php -v
           current_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
           
-          notify_message "Current version is ${{current_php_version}} (Matrix version is: ${{matrix.php}})"
+          notify_message "Current version is ${{ current_php_version }} (Matrix version is: ${{ matrix.php }})"
           
-          if [[ "${{matrix.php}}" == "${{version}}" ]]; then
+          if [[ "${{ matrix.php }}" == "${{ version }}" ]]; then
             notify_message "Current PHP version is the same as matrix php version."
           else
             notify_message "Current PHP version and matrix php version are different"

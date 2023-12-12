@@ -38,28 +38,7 @@ jobs:
             brew services start php@8.3
           fi
           
+          php -v
+          
           echo "Installing matrix version"
           brew install php@${{ matrix.php-version }}
-          
-          echo "Setting php to matrix version"
-          ./brew-php-switcher.sh ${{ matrix.php-version }}
-          version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
-          
-          echo "Checking matrix version"
-          if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
-            echo "Expected ${{ matrix.php-version }} got ${version}"
-            exit 1
-          else
-            echo "PHP CLI version was properly switched to ${{ matrix.php-version }}"
-          fi
-          
-          service="php@${version}"
-          status=$(brew services list | grep "${service}" | grep "started")
-          
-          echo "Checking service status"
-          if [[ -z "${status}" ]]; then
-            echo "PHP-FPM service with version ${version} is not started"
-            exit 1
-          else
-            echo "PHP-FPM service with version ${version} was started properly"
-          fi

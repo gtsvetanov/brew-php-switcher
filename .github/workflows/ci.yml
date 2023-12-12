@@ -18,7 +18,7 @@ jobs:
         uses: 'actions/checkout@v3'
       - run: |
           echo "Setting HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK"
-          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=0
           
           echo "Checking current brew version"
           brew --version

@@ -33,12 +33,12 @@ jobs:
           
           # export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
           
-          if [[ $(hash ashdiuasdhu 2>/dev/null) ]]; then
+          if [[ $(command -v ashdiuasdhu 2>/dev/null) ]]; then
             error_message "ashdiuasdhu exists"
           fi
           
           notify_message "Checking PHP"
-          if [[ $(hash php 2>/dev/null) ]]; then
+          if [[ $(command -v php 2>/dev/null) ]]; then
             php -v
             initial_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
             

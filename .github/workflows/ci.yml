@@ -31,7 +31,7 @@ jobs:
             echo -e "\\033[31m$*\\033[0m"
           }
           
-          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          # export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
           
           notify_message "Checking PHP"
           php -v
@@ -45,7 +45,7 @@ jobs:
           notify_message "Adding shivammathur/php tap"
           brew tap shivammathur/php
           
-          brew reinstall libsodium
+          # brew reinstall libsodium
           
           for php_version in ${php_versions[*]}; do
             notify_message "Installing shivammathur/php/php@${php_version}"

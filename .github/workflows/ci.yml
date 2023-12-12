@@ -59,7 +59,7 @@ jobs:
             else
               error_message "Version was not successfully changed and it's not working"
               exit 1
-            fi
+            fi 
             
             service="php@${php_version}"
             if [[ "${php_version}" == "8.3" ]]; then 

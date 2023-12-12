@@ -17,9 +17,6 @@ jobs:
       - name: 'PHP version check'
         uses: 'actions/checkout@v3'
       - run: |
-          echo "Setting HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK"
-          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
-          
           echo "Setting HOMEBREW_NO_INSTALL_UPGRADE"
           export HOMEBREW_NO_INSTALL_UPGRADE=1
           
@@ -28,6 +25,8 @@ jobs:
           
           echo "Adding shivammathur/php tap"
           brew tap shivammathur/php
+          
+          php -v
           
           echo "Installing different version"
           if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 

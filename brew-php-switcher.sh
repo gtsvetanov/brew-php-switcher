@@ -84,7 +84,7 @@ selected_version="$1"
 
 # Check if there is at least one php version installed via brew
 if [[ ${#brew_packages[@]} -eq 0 ]]; then
-  echo "\033[31m✖ Not even a single PHP version is installed via brew\033[39m"
+  echo "\033[31m ✖ Not even a single PHP version is installed via brew \033[39m "
   exit 1
 fi
 
@@ -140,13 +140,13 @@ done
 
 # Check if version argument is empty
 if [[ -z "${selected_version}" ]]; then
-  echo "\033[31m✖ version argument is required\033[39m"
+  echo "\033[31m ✖ version argument is required \033[39m "
   show_help
   exit 1
 fi
 
 if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
-  echo "\033[32mSwitching PHP version to ${selected_version}\033[39m"
+  echo "\033[32m Switching PHP version to ${selected_version} \033[39m "
 
   # Find package name by selected php version to use
   selected_package_name=""
@@ -159,7 +159,7 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
   done
 
   if [[ -z "${selected_package_name}" ]]; then
-    echo "\033[31m✖ Cannot find package name for version ${selected_version}\033[39m"
+    echo "\033[31m ✖ Cannot find package name for version ${selected_version} \033[39m "
     exit 1
   fi
 
@@ -169,7 +169,7 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
   # Switch terminal php version to selected one
   brew unlink php &>/dev/null && brew link --overwrite --force "${selected_package_name}" &>/dev/null
 
-  echo "\033[32m✔ Terminal php version switched to ${selected_version} (${full_version})\033[39m"
+  echo "\033[32m ✔ Terminal php version switched to ${selected_version} (${full_version}) \033[39m "
 
   if [[ ${apache_change} -eq 1 ]]; then
     if brew list httpd &>/dev/null || [[ ${osx_version} -lt 12000 ]]; then
@@ -211,9 +211,9 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
         sudo apachectl start
       fi
 
-      echo "\033[32m✔ Apache php version switched to ${selected_version} (${full_version})\033[39m"
+      echo "\033[32m ✔ Apache php version switched to ${selected_version} (${full_version}) \033[39m "
     else
-      echo "\033[31m✖ Apache is not installed on this machine\033[39m"
+      echo "\033[31m ✖ Apache is not installed on this machine \033[39m "
     fi
   fi
 
@@ -229,13 +229,13 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
     done
 
     if [[ "${selected_package_status}" == "${NA}" ]]; then
-      echo "\033[31m✖ FPM service is not available for version ${selected_version} (${full_version})\033[39m"
+      echo "\033[31m ✖ FPM service is not available for version ${selected_version} (${full_version}) \033[39m "
     elif [[ "${selected_package_status}" == "started" ]]; then
-      echo "\033[32m✔ FPM php version is already set to ${selected_version} (${full_version})\033[39m"
+      echo "\033[32m ✔ FPM php version is already set to ${selected_version} (${full_version}) \033[39m "
     else
       brew services start "${selected_package_name}" &>/dev/null
 
-      echo "\033[32m✔ FPM php version was switched to ${selected_version} (${full_version})\033[39m"
+      echo "\033[32m ✔ FPM php version was switched to ${selected_version} (${full_version}) \033[39m "
     fi
   fi
 
@@ -243,14 +243,14 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
     if [[ $(hash valet 2>/dev/null) ]]; then
       valet use "${selected_version}" --force &>/dev/null
 
-      echo "\033[32m✔ Valet php version switched to ${selected_version} (${full_version})\033[39m"
+      echo "\033[32m ✔ Valet php version switched to ${selected_version} (${full_version}) \033[39m "
     else
-      echo "\033[31m✖ Valet is not installed on this machine\033[39m"
+      echo "\033[31m ✖ Valet is not installed on this machine \033[39m "
     fi
   fi
   exit 0
 else
-  echo "\033[31m✖ PHP version \"${selected_version}\" is not installed and not available\033[39m"
+  echo "\033[31m ✖ PHP version \"${selected_version}\" is not installed and not available \033[39m "
   show_help
   exit 1
 fi

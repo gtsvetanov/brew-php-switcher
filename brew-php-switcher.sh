@@ -74,8 +74,6 @@ VERSION_DELIMITER="."
 NA="na" # Not available
 
 # Colors
-ERROR="$(tput setaf 1)"
-SUCCESS="$(tput setaf 2)"
 
 # Get arrays of installed php versions and available fpm services
 brew_packages=($(brew list --version | grep php | tr "${SPACE}" "${DELIMITER}"))
@@ -86,8 +84,7 @@ selected_version="$1"
 
 # Check if there is at least one php version installed via brew
 if [[ ${#brew_packages[@]} -eq 0 ]]; then
-  echo "${ERROR}✖ Not even a single PHP version is installed via brew"
-  tput sgr0
+  echo "\033[31m✖ Not even a single PHP version is installed via brew\033[39m"
   exit 1
 fi
 
@@ -143,14 +140,13 @@ done
 
 # Check if version argument is empty
 if [[ -z "${selected_version}" ]]; then
-  echo "${ERROR}✖ version argument is required"
+  echo "\033[31m✖ version argument is required\033[39m"
   show_help
-  tput sgr0
   exit 1
 fi
 
 if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
-  echo "${SUCCESS}Switching PHP version to ${selected_version}"
+  echo "\033[32mSwitching PHP version to ${selected_version}\033[39m"
 
   # Find package name by selected php version to use
   selected_package_name=""
@@ -163,8 +159,7 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
   done
 
   if [[ -z "${selected_package_name}" ]]; then
-    echo "${ERROR}✖ Cannot find package name for version ${selected_version}"
-    tput sgr0
+    echo "\033[31m✖ Cannot find package name for version ${selected_version}\033[39m"
     exit 1
   fi
 
@@ -174,7 +169,7 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
   # Switch terminal php version to selected one
   brew unlink php &>/dev/null && brew link --overwrite --force "${selected_package_name}" &>/dev/null
 
-  echo "${SUCCESS}✔ Terminal php version switched to ${selected_version} (${full_version})"
+  echo "\033[32m✔ Terminal php version switched to ${selected_version} (${full_version})\033[39m"
 
   if [[ ${apache_change} -eq 1 ]]; then
     if brew list httpd &>/dev/null || [[ ${osx_version} -lt 12000 ]]; then
@@ -216,9 +211,9 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
         sudo apachectl start
       fi
 
-      echo "${SUCCESS}✔ Apache php version switched to ${selected_version} (${full_version})"
+      echo "\033[32m✔ Apache php version switched to ${selected_version} (${full_version})\033[39m"
     else
-      echo "${ERROR}✖ Apache is not installed on this machine"
+      echo "\033[31m✖ Apache is not installed on this machine\033[39m"
     fi
   fi
 
@@ -234,13 +229,13 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
     done
 
     if [[ "${selected_package_status}" == "${NA}" ]]; then
-      echo "${ERROR}✖ FPM service is not available for version ${selected_version} (${full_version})"
+      echo "\033[31m✖ FPM service is not available for version ${selected_version} (${full_version})\033[39m"
     elif [[ "${selected_package_status}" == "started" ]]; then
-      echo "${SUCCESS}✔ FPM php version is already set to ${selected_version} (${full_version})"
+      echo "\033[32m✔ FPM php version is already set to ${selected_version} (${full_version})\033[39m"
     else
       brew services start "${selected_package_name}" &>/dev/null
 
-      echo "${SUCCESS}✔ FPM php version was switched to ${selected_version} (${full_version})"
+      echo "\033[32m✔ FPM php version was switched to ${selected_version} (${full_version})\033[39m"
     fi
   fi
 
@@ -248,17 +243,14 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
     if [[ $(hash valet 2>/dev/null) ]]; then
       valet use "${selected_version}" --force &>/dev/null
 
-      echo "${SUCCESS}✔ Valet php version switched to ${selected_version} (${full_version})"
+      echo "\033[32m✔ Valet php version switched to ${selected_version} (${full_version})\033[39m"
     else
-      echo "${ERROR}✖ Valet is not installed on this machine"
+      echo "\033[31m✖ Valet is not installed on this machine\033[39m"
     fi
   fi
-
-  tput sgr0
   exit 0
 else
-  echo "${ERROR}✖ PHP version \"${selected_version}\" is not installed and not available"
+  echo "\033[31m✖ PHP version \"${selected_version}\" is not installed and not available\033[39m"
   show_help
-  tput sgr0
   exit 1
 fi

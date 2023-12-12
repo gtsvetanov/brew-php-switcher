@@ -45,6 +45,8 @@ jobs:
           notify_message "Adding shivammathur/php tap"
           brew tap shivammathur/php
           
+          brew reinstall libsodium
+          
           for php_version in ${php_versions[*]}; do
             notify_message "Installing shivammathur/php/php@${php_version}"
             brew install shivammathur/php/php@${php_version}

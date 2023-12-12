@@ -16,12 +16,7 @@ jobs:
       - name: 'PHP version check'
         uses: 'actions/checkout@v3'
       - run: |
-          php_versions=("5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0", "8.1", "8.2", "8.3")
-          
-          for php_version in ${php_versions[*]}; do
-            echo ${php_version}
-          done
-          exit;
+          php_versions=("5.6" "7.0" "7.1" "7.2" "7.3" "7.4" "8.0" "8.1" "8.2" "8.3")
           
           notify_message() {
             echo -e "\\033[33m$*\\033[0m"
@@ -35,11 +30,11 @@ jobs:
             echo -e "\\033[31m$*\\033[0m"
           }
           
-          
-          
           notify_message "Checking PHP"
           php -v
           initial_php_version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
+          
+          notify_message "Initial PHP version is ${initial_php_version}"
           
           notify_message "Checking Brew"
           brew --version
@@ -47,49 +42,23 @@ jobs:
           notify_message "Adding shivammathur/php tap"
           brew tap shivammathur/php
           
-          notify_message "Initial PHP version is ${initial_php_version} (Matrix PHP version is: ${{ matrix.php-version }})"
-          
-          if [[ "${{ matrix.php-version }}" == "${initial_php_version}" ]]; then
-            notify_message "Initial PHP version is the same as Matrix PHP version."
+          for php_version in ${php_versions[*]}; do
+            notify_message "Installing shivammathur/php/php@${php_version}"
+            brew install shivammathur/php/php@${php_version}
             
-            notify_message "Installing PHP 5.6"
-            brew install shivammathur/php/php@5.6
+            ./brew-php-switcher.sh ${php_version}
             
-            ./brew-php-switcher.sh 5.6
-            echo "Currently PHP version is $(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)"
-          else
-            notify_message "Initial PHP version and Matrix PHP version are different"
-          fi
-          
-          brew services list
-          
-          notify_message "Installing shivammathur/php/php@${{ matrix.php-version }}"
-          brew install shivammathur/php/php@${{ matrix.php-version }}
-          
-          ./brew-php-switcher.sh ${{ matrix.php-version }}
-          version=$(php -v | grep -e '^PHP' | cut -d ' ' -f2 | cut -d '.' -f1,2)
-          if [[ "${{ matrix.php-version }}" != "${version}" ]]; then
-            error_message "Expected ${{ matrix.php-version }} got ${version}"
-            exit 1
-          else
-            success_message "PHP CLI version was properly switched to ${{ matrix.php-version }}"
-          fi
-          
-          exit 0
-          
-          
-          
-          
-          service="php@${version}"
-          if [[ "${version}" == "8.3" ]]; then 
-            service="php"
-          fi
-          
-          brew services start "${service}"
-          status=$(brew services list | grep "${service}" | grep "started")
-          if [[ -z "${status}" ]]; then
-            echo "PHP-FPM service with version ${version} is not started"
-            exit 1
-          else
-            echo "PHP-FPM service with version ${version} was started properly"
-          fi
+            service="php@${php_version}"
+            if [[ "${php_version}" == "8.3" ]]; then 
+              service="php"
+            fi
+            
+            brew services start "${service}"
+            status=$(brew services list | grep "${service}" | grep "started")
+            if [[ -z "${status}" ]]; then
+              echo "PHP-FPM service with version ${version} is not started"
+              exit 1
+            else
+              echo "PHP-FPM service with version ${version} was started properly"
+            fi
+          done

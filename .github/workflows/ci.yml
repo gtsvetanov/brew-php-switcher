@@ -45,6 +45,7 @@ jobs:
             notify_message "Initial PHP version is ${initial_php_version}"
             
             notify_message "Removing PHP and all of it's dependencies"
+            brew uninstall composer
             brew uninstall php
             brew autoremove
           fi

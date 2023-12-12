@@ -20,13 +20,13 @@ jobs:
           echo "Setting HOMEBREW_NO_INSTALL_UPGRADE"
           export HOMEBREW_NO_INSTALL_UPGRADE=1
           
+          brew uninstall php
+          
           echo "Checking current brew version"
           brew --version
           
           echo "Adding shivammathur/php tap"
           brew tap shivammathur/php
-          
-          php -v
           
           echo "Installing different version"
           if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 

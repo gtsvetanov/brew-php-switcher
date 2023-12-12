@@ -30,9 +30,11 @@ jobs:
           if [[ "${{ matrix.php-version }}" == "8.3" ]]; then 
             brew install shivammathur/php/php@8.2
             brew services start shivammathur/php/php@8.2
+            brew link --overwrite --force php@8.2
           else
             brew install shivammathur/php/php@8.3
             brew services start shivammathur/php/php@8.3
+            brew link --overwrite --force php@8.3
           fi
           
           echo "Installing matrix version"

@@ -38,6 +38,14 @@ jobs:
           
           notify_message "Current version is ${current_php_version}"
           
+          if [[ "${{ matrix.php-version }}" == "${version}" ]]; then
+            notify_message "Current PHP version is the same as matrix php version."
+          else
+            notify_message "Current PHP version and matrix php version are different"
+          fi
+          
+          exit 0
+          
           notify_message "Checking Brew"
           brew --version
           

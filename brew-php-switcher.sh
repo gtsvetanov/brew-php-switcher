@@ -172,7 +172,7 @@ if [[ "${versions_map[*]}" == *"${selected_version}"* ]]; then
   full_version=$(brew ls --versions "${selected_package_name}" | cut -d "${SPACE}" -f2)
 
   # Switch terminal php version to selected one
-  brew unlink php &>/dev/null && brew link --overwrite --force "${selected_package_name}" &>/dev/null
+  brew unlink php &>/dev/null && brew unlink "${selected_package_name}" &>/dev/null && brew link --overwrite --force "${selected_package_name}" &>/dev/null
 
   echo "${SUCCESS}✔ Terminal php version switched to ${selected_version} (${full_version})"
 
